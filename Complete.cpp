@@ -456,6 +456,212 @@ void DoublyLinkedList::remove(int value)
     cout << value << " not found in the list" << endl;
 }
 
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%% ( circular singly linked list ) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+class CircularSinglyLinkedList
+{
+private:
+    Node *headNode;
+    Node *currentNode;
+    int size;
+
+public:
+    CircularSinglyLinkedList() { size = 0, headNode = nullptr, currentNode = nullptr; }
+
+    void printLinkedList();
+    void insertAtTail(int value);
+    void insertAtHead(int value);
+    void insertAfter(int after, int value);
+    void insertBefore(int before, int value);
+    void Remove(int value);
+};
+
+void CircularSinglyLinkedList::printLinkedList()
+{
+    if (headNode == nullptr)
+    {
+        cout << "List is empty\n";
+    }
+    else
+    {
+        currentNode = headNode;
+        while (currentNode->getNextNode() != headNode)
+        {
+            cout << currentNode->getValue() << " -> ";
+            currentNode = currentNode->getNextNode();
+        }
+        cout << currentNode->getValue() << endl;
+
+        currentNode = currentNode->getNextNode();
+        while (currentNode->getNextNode() != headNode)
+        {
+            cout << currentNode->getValue() << " -> ";
+            currentNode = currentNode->getNextNode();
+        }
+        cout << currentNode->getValue() << endl;
+    }
+}
+
+void CircularSinglyLinkedList::insertAtTail(int value)
+{
+    Node *newNode = new Node(value);
+    if (headNode == nullptr)
+    {
+        headNode = newNode;
+        headNode->setNextNode(headNode);
+    }
+    else
+    {
+        currentNode = headNode;
+        while (currentNode->getNextNode() != headNode)
+        {
+            currentNode = currentNode->getNextNode();
+        }
+        currentNode->setNextNode(newNode);
+        newNode->setNextNode(headNode);
+    }
+    size++;
+    cout << value << " successfully added at tail\n";
+}
+
+void CircularSinglyLinkedList::insertAtHead(int value)
+{
+    Node *newNode = new Node(value);
+    if (headNode == nullptr)
+    {
+        headNode = newNode;
+        headNode->setNextNode(headNode);
+    }
+    else
+    {
+        currentNode = headNode;
+        while (currentNode->getNextNode() != headNode)
+        {
+            currentNode = currentNode->getNextNode();
+        }
+        currentNode->setNextNode(newNode);
+        newNode->setNextNode(headNode);
+        headNode = newNode;
+    }
+    size++;
+    cout << value << " successfully added at head\n";
+}
+
+void CircularSinglyLinkedList::insertAfter(int after, int value)
+{
+    Node *newNode = new Node(value);
+    if (headNode->getValue() == after)
+    {
+        newNode->setNextNode(headNode->getNextNode());
+        headNode->setNextNode(newNode);
+        size++;
+        cout << value << " successfully added after " << after << endl;
+        return;
+    }
+    else
+    {
+        currentNode = headNode->getNextNode();
+        while (currentNode != headNode)
+        {
+            if (currentNode->getValue() == after)
+            {
+                newNode->setNextNode(currentNode->getNextNode());
+                currentNode->setNextNode(newNode);
+                size++;
+                cout << value << " successfully added after " << after << endl;
+                return;
+            }
+
+            currentNode = currentNode->getNextNode();
+        }
+        cout << after << " not found in the list\n";
+    }
+}
+
+void CircularSinglyLinkedList::insertBefore(int before, int value)
+{
+    Node *newNode = new Node(value);
+    if (headNode->getValue() == before)
+    {
+        currentNode = headNode;
+        while (currentNode->getNextNode() != headNode)
+        {
+            currentNode = currentNode->getNextNode();
+        }
+        currentNode->setNextNode(newNode);
+        newNode->setNextNode(headNode);
+        size++;
+        cout << value << " successfully added before " << before << endl;
+        return;
+    }
+    else
+    {
+        Node *prevNode = headNode;
+        currentNode = headNode->getNextNode();
+        while (currentNode != headNode)
+        {
+            if (currentNode->getValue() == before)
+            {
+                prevNode->setNextNode(newNode);
+                newNode->setNextNode(currentNode);
+                size++;
+                cout << value << " successfully added before " << before << endl;
+                return;
+            }
+
+            prevNode = currentNode;
+            currentNode = currentNode->getNextNode();
+        }
+    }
+    cout << before << " not found in the list" << endl;
+}
+
+void CircularSinglyLinkedList::Remove(int value)
+{
+    if (headNode->getValue() == value && size == 1)
+    {
+        delete headNode;
+        headNode = nullptr;
+        size--;
+        cout << value << " successfully deleted\n";
+        return;
+    }
+    else if (headNode->getValue() == value)
+    {
+        currentNode = headNode;
+        while (currentNode->getNextNode() != headNode)
+        {
+            currentNode = currentNode->getNextNode();
+        }
+        currentNode->setNextNode(headNode->getNextNode());
+        delete headNode;
+        headNode = currentNode->getNextNode();
+        size--;
+        cout << value << " successfully deleted\n";
+        return;
+    }
+    else
+    {
+        Node *prevNode = headNode;
+        currentNode = headNode->getNextNode();
+        while (currentNode != headNode)
+        {
+            if (currentNode->getValue() == value)
+            {
+                prevNode->setNextNode(currentNode->getNextNode());
+                delete currentNode;
+                size--;
+                cout << value << " successfully deleted\n";
+                return;
+            }
+
+            prevNode = currentNode;
+            currentNode = currentNode->getNextNode();
+        }
+    }
+    cout << value << " was not found in the list\n";
+}
+
 
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%% ( circular doubly linked list ) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
