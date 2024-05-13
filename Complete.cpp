@@ -916,3 +916,77 @@ int ArrayStack::getTop()
 {
     return top;
 }
+
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%% ( Linked list Stack ) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+class LinkedListStack
+{
+private:
+    int size;
+    Node *headNode;
+    Node *currentNode;
+
+public:
+    LinkedListStack() { size = 0, headNode = nullptr, currentNode = nullptr; }
+    void push(int value);
+    int pop();
+    bool isEmpty() { return headNode == nullptr; }
+    int getSize() { return size; }
+};
+
+void LinkedListStack::push(int value)
+{
+    Node *newNode = new Node(value);
+    if (headNode == nullptr)
+    {
+        headNode = newNode;
+    }
+    else
+    {
+        currentNode = headNode;
+        while (currentNode->getNextNode() != nullptr)
+        {
+            currentNode = currentNode->getNextNode();
+        }
+        currentNode->setNextNode(newNode);
+    }
+
+    size++;
+    cout << value << " successfully added in stack\n";
+}
+
+int LinkedListStack::pop()
+{
+    if (headNode == nullptr)
+    {
+        cout << "Stack is empty\n";
+        return -1;
+    }
+    else if (headNode->getNextNode() == nullptr)
+    {
+        int value = headNode->getValue();
+        delete headNode;
+        headNode = nullptr;
+        size--;
+        return value;
+    }
+    else
+    {
+        Node *prevNode = headNode;
+        currentNode = headNode->getNextNode();
+        while (currentNode->getNextNode() != nullptr)
+        {
+            prevNode = currentNode;
+            currentNode = currentNode->getNextNode();
+        }
+        int value = currentNode->getValue();
+        delete currentNode;
+        currentNode = nullptr;
+        prevNode->setNextNode(nullptr);
+        size--;
+        return value;
+    }
+}
+
+
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%% ( singly linked list ) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
