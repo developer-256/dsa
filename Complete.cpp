@@ -860,3 +860,59 @@ void CircularLinkedList::Remove(int value)
     }
     cout << value << " not found in the list" << endl;
 }
+
+
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%% ( Array Stack ) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+const int size = 5;
+
+class ArrayStack
+{
+private:
+    int top;
+    int *array;
+
+public:
+    ArrayStack() { top = -1, array = new int[size]; }
+    void push(int value);
+    int pop();
+    bool isFull();
+    bool isEmpty();
+    int getTop();
+};
+
+void ArrayStack::push(int value)
+{
+    if (top >= size - 1)
+    {
+        cout << "Stack is full\n";
+        return;
+    }
+    cout << value << " successfully added at top\n";
+    array[++top] = value;
+}
+
+int ArrayStack::pop()
+{
+    if (top < 0)
+    {
+        cout << "Stack is empty\n";
+        return -1;
+    }
+    return array[top--];
+}
+
+bool ArrayStack::isFull()
+{
+    return top >= size - 1;
+}
+
+bool ArrayStack::isEmpty()
+{
+    return top < 0;
+}
+
+int ArrayStack::getTop()
+{
+    return top;
+}
