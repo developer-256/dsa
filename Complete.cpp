@@ -989,4 +989,94 @@ int LinkedListStack::pop()
 }
 
 
+// %%%%%%%%%%%%%%%%%%%%%%%%%%%%% ( Array Queue ) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+const int MaxLength = 5;
+
+class ArrayQueue
+{
+private:
+    int rear;
+    int front;
+    int *array;
+    int size;
+
+public:
+    ArrayQueue() { size = 0, rear = -1, front = -1, array = new int[MaxLength]; }
+    void enQueue(int value);
+    int deQueue();
+    bool isFull();
+    bool isEmpty();
+    bool search(int value);
+};
+// (-1: front)(-1: rear) [0, 0, 0, 0, 0]
+
+void ArrayQueue::enQueue(int value)
+{
+    if (isFull())
+    {
+        cout << "Queue is full\n";
+        return;
+    }
+
+    if (isEmpty())
+    {
+        front = 0;
+    }
+
+    array[++rear] = value;
+}
+
+int ArrayQueue::deQueue()
+{
+    if (isEmpty())
+    {
+        cout << "Queue is empty\n";
+        return -1;
+    }
+
+    int returnValue = array[front];
+    array[front] = 0;
+
+    if (front == rear)
+    {
+        front = rear = -1; // Reset to empty state
+    }
+    else
+    {
+        front++;
+    }
+
+    size--;
+    return returnValue;
+}
+
+bool ArrayQueue::isFull()
+{
+    return rear == MaxLength - 1;
+}
+
+bool ArrayQueue::isEmpty()
+{
+    return rear == -1 && front == -1;
+}
+
+bool ArrayQueue::search(int value)
+{
+    if (isEmpty())
+    {
+        return false;
+    }
+
+    for (int i = front; i <= rear; i++)
+    {
+        if (array[i] == value)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 // %%%%%%%%%%%%%%%%%%%%%%%%%%%%% ( singly linked list ) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
